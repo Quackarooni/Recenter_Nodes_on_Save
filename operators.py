@@ -56,7 +56,6 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
                 most_top = max(most_top, node.location.y)
                 most_bottom = min(most_bottom, node.location.y - node.dimensions.y)
 
-            print(most_left, most_right, most_top, most_bottom)
             midpoint_x = 0.5*(most_left + most_right)
             midpoint_y = 0.5*(most_top + most_bottom)
 
