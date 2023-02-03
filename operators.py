@@ -77,13 +77,13 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
         data = bpy.data
 
         compositor_nodetrees = ((scene.name, scene.node_tree.bl_idname, scene.node_tree.nodes) for scene 
-            in data.scenes if hasattr(scene, "node_tree"))
+            in data.scenes if hasattr(scene, "node_tree") and (scene.node_tree is not None))
 
         shader_nodetrees = ((material.name, material.node_tree.bl_idname, material.node_tree.nodes) for material 
-            in data.materials if hasattr(material, "node_tree"))
+            in data.materials if hasattr(material, "node_tree") and (material.node_tree is not None))
 
         texture_nodetrees = ((texture.name, texture.node_tree.bl_idname, texture.node_tree.nodes) for texture 
-            in data.textures if hasattr(texture.node_tree, "nodes"))
+            in data.textures if hasattr(texture.node_tree, "nodes") and (texture.node_tree is not None))
         
         nodegroups_and_geonodes = ((group.name, group.bl_idname, group.nodes) for group 
             in data.node_groups if hasattr(group, "nodes"))
