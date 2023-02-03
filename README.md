@@ -14,6 +14,8 @@ Once the addon is installed and enabled, recentering should happen every time a 
 
 ## Preferences
 
+<img title="" src="https://user-images.githubusercontent.com/83491032/216546352-69e6bbae-94d0-4c6b-993e-b45f1a94de10.png" alt="preferences" data-align="inline">
+
 #### - Debug Messages:
 
     Toggles what gets printed to the system console during the process.
