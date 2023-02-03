@@ -26,7 +26,7 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
     bl_label = "Recenter Nodes"
     bl_idname = "recenter_nodes.main_operator"
     bl_description = "Repositions nodetree such that its midpoint is at the origin"
-    bl_options = {'UNDO_GROUPED'}
+    bl_options = {'REGISTER','UNDO_GROUPED'}
 
     @classmethod
     def poll(cls, context):
