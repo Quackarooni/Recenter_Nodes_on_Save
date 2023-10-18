@@ -83,8 +83,14 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
         compositor_nodetrees = ((scene.name, scene.node_tree.bl_idname, scene.node_tree.nodes) for scene 
             in data.scenes if hasattr(scene, "node_tree") and (scene.node_tree is not None))
 
-        shader_nodetrees = ((material.name, material.node_tree.bl_idname, material.node_tree.nodes) for material 
+        material_nodetrees = ((material.name, material.node_tree.bl_idname, material.node_tree.nodes) for material 
             in data.materials if hasattr(material, "node_tree") and (material.node_tree is not None))
+
+        world_nodetrees = ((world.name, world.node_tree.bl_idname, world.node_tree.nodes) for world 
+            in data.worlds if hasattr(world, "node_tree") and (world.node_tree is not None))
+        
+        linestyle_nodetrees = ((linestyle.name, linestyle.node_tree.bl_idname, linestyle.node_tree.nodes) for linestyle 
+            in data.linestyles if hasattr(linestyle, "node_tree") and (linestyle.node_tree is not None))
 
         texture_nodetrees = ((texture.name, texture.node_tree.bl_idname, texture.node_tree.nodes) for texture 
             in data.textures if hasattr(texture.node_tree, "nodes") and (texture.node_tree is not None))
@@ -92,8 +98,8 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
         nodegroups_and_geonodes = ((group.name, group.bl_idname, group.nodes) for group 
             in data.node_groups if hasattr(group, "nodes"))
 
-        all_nodetrees = itertools.chain(compositor_nodetrees, shader_nodetrees, 
-            texture_nodetrees, nodegroups_and_geonodes)
+        all_nodetrees = itertools.chain(compositor_nodetrees, material_nodetrees, world_nodetrees,
+            linestyle_nodetrees, texture_nodetrees, nodegroups_and_geonodes)
 
         for nodetree in all_nodetrees:
             self.set_to_origin(nodetree)
