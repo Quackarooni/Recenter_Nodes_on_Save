@@ -3,9 +3,13 @@ from bpy.types import Operator
 from pathlib import Path
 import itertools
 
-def fetch_user_preferences():
-    ADD_ON_PATH = Path(__file__).parent.name
-    return bpy.context.preferences.addons[ADD_ON_PATH].preferences
+def fetch_user_preferences(attr_id=None):
+    prefs = bpy.context.preferences.addons[__package__].preferences
+
+    if attr_id is None:
+        return prefs
+    else:
+        return getattr(prefs, attr_id)
 
 class deframe_nodes():
     def __init__(self, nodes):
