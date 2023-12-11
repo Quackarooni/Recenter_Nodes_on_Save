@@ -1,7 +1,9 @@
 import bpy
-from bpy.types import Operator
-from pathlib import Path
 import itertools
+from pathlib import Path
+from bpy.types import Operator
+
+from . import utils
 
 def fetch_user_preferences(attr_id=None):
     prefs = bpy.context.preferences.addons[__package__].preferences
@@ -36,8 +38,7 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
     def poll(cls, context):
         return True
 
-    @staticmethod
-    def set_to_origin(nodetree):
+    def set_to_origin(self, nodetree):
         nodetree_name, nodetree_type, nodes = nodetree
         logging_type = fetch_user_preferences().logging_messages
 
@@ -47,21 +48,7 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
             return
 
         with deframe_nodes(nodes):
-            for index, node in enumerate(nodes):
-                if index == 0:
-                    most_left = node.location.x
-                    most_right = node.location.x + node.dimensions.x
-                    most_top = node.location.y
-                    most_bottom = node.location.y - node.dimensions.y
-                    continue
-                
-                most_left = min(most_left, node.location.x)
-                most_right = max(most_right, node.location.x + node.dimensions.x)
-                most_top = max(most_top, node.location.y)
-                most_bottom = min(most_bottom, node.location.y - node.dimensions.y)
-
-            midpoint_x = 0.5*(most_left + most_right)
-            midpoint_y = 0.5*(most_top + most_bottom)
+            midpoint_x, midpoint_y = utils.get_bounds_midpoint(nodes)
 
             if midpoint_x == 0 and midpoint_y == 0:
                 if logging_type == "ALL":
