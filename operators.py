@@ -41,9 +41,9 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
 
         return
 
-    def execute(self, context):
-        context.window.cursor_set('WAIT')
-        data = bpy.data
+    @staticmethod
+    def fetch_nodetrees(context):
+        data = context.blend_data
 
         compositor_nodetrees = ((scene.name, scene.node_tree.bl_idname, scene.node_tree.nodes) for scene 
             in data.scenes if hasattr(scene, "node_tree") and (scene.node_tree is not None))
@@ -63,10 +63,13 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
         nodegroups_and_geonodes = ((group.name, group.bl_idname, group.nodes) for group 
             in data.node_groups if hasattr(group, "nodes"))
 
-        all_nodetrees = itertools.chain(compositor_nodetrees, material_nodetrees, world_nodetrees,
+        return itertools.chain(compositor_nodetrees, material_nodetrees, world_nodetrees,
             linestyle_nodetrees, texture_nodetrees, nodegroups_and_geonodes)
 
-        for nodetree in all_nodetrees:
+    def execute(self, context):
+        context.window.cursor_set('WAIT')
+
+        for nodetree in self.fetch_nodetrees(context):
             self.set_to_origin(nodetree)
 
         context.window.cursor_set('DEFAULT')
