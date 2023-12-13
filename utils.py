@@ -63,6 +63,9 @@ def get_bottom(node):
 
 
 def get_bounds(nodes):
+    if len(nodes) <= 0:
+        return 0, 0, 0, 0
+
     min_x = min(get_left(node) for node in nodes)
     max_x = max(get_right(node) for node in nodes)
     min_y = min(get_bottom(node) for node in nodes)
@@ -72,8 +75,11 @@ def get_bounds(nodes):
 
 
 def get_bounds_midpoint(nodes):
+    nodes = tuple(n for n in nodes if n.bl_idname != "NodeFrame")
+
     min_x, max_x, min_y, max_y = get_bounds(nodes)
     midpoint_x = 0.5*(min_x + max_x)
     midpoint_y = 0.5*(min_y + max_y)
 
     return midpoint_x, midpoint_y
+
