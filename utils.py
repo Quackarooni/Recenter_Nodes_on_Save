@@ -1,5 +1,33 @@
+import bpy
+
 weird_offset = 10
 reroute_width = 10
+
+
+class TemporaryUnframe:
+    def __init__(self, nodes):
+        self.parent_dict = {}
+        for node in nodes:
+            if node.parent is not None:
+                self.parent_dict[node] = node.parent
+            node.parent = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        for node, parent in self.parent_dict.items():
+            node.parent = parent
+
+
+def fetch_user_preferences(attr_id=None):
+    prefs = bpy.context.preferences.addons[__package__].preferences
+
+    if attr_id is None:
+        return prefs
+    else:
+        return getattr(prefs, attr_id)
+
 
 def get_width(node):
     if node.bl_idname == "NodeReroute":

@@ -5,28 +5,6 @@ from bpy.types import Operator
 
 from . import utils
 
-def fetch_user_preferences(attr_id=None):
-    prefs = bpy.context.preferences.addons[__package__].preferences
-
-    if attr_id is None:
-        return prefs
-    else:
-        return getattr(prefs, attr_id)
-
-class deframe_nodes():
-    def __init__(self, nodes):
-        self.parent_dict = {}
-        for node in nodes:
-            if node.parent is not None:
-                self.parent_dict[node] = node.parent
-            node.parent = None
-    
-    def __enter__(self):
-        return self
-
-    def __exit__(self, type, value, traceback):
-        for node, parent in self.parent_dict.items():
-            node.parent = parent
             
 class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
     bl_label = "Recenter Nodes"
@@ -40,14 +18,14 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
 
     def set_to_origin(self, nodetree):
         nodetree_name, nodetree_type, nodes = nodetree
-        logging_type = fetch_user_preferences().logging_messages
+        logging_type = utils.fetch_user_preferences().logging_messages
 
         if not nodes:
             if logging_type == "ALL":
                 print(f"CANCELLED: No nodes detected in {nodetree_type} - '{nodetree_name}'.")
             return
 
-        with deframe_nodes(nodes):
+        with utils.TemporaryUnframe(nodes):
             midpoint_x, midpoint_y = utils.get_bounds_midpoint(nodes)
 
             if midpoint_x == 0 and midpoint_y == 0:
