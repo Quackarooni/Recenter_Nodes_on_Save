@@ -41,7 +41,8 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
 
         return
 
-    def execute(self, context):  
+    def execute(self, context):
+        context.window.cursor_set('WAIT')
         data = bpy.data
 
         compositor_nodetrees = ((scene.name, scene.node_tree.bl_idname, scene.node_tree.nodes) for scene 
@@ -67,6 +68,10 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
 
         for nodetree in all_nodetrees:
             self.set_to_origin(nodetree)
+
+        context.window.cursor_set('DEFAULT')
+        for area in context.screen.areas:
+            area.tag_redraw()
 
         return {'FINISHED'}
 
