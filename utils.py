@@ -30,17 +30,18 @@ def fetch_user_preferences(attr_id=None):
 
 
 def get_width(node):
-    if node.bl_idname == "NodeReroute":
+    if node.bl_idname == 'NodeReroute':
         return reroute_width
     else:
         return node.width
 
 
 def get_height(node):
-    if node.bl_idname == "NodeReroute":
+    if node.bl_idname == 'NodeReroute':
         return reroute_width
     else:
         return node.height
+
 
 def get_left(node):
     if node.bl_static_type == 'REROUTE':
@@ -103,11 +104,10 @@ def get_bounds(nodes):
 
 
 def get_bounds_midpoint(nodes):
-    nodes = tuple(n for n in nodes if n.bl_idname != "NodeFrame")
+    nodes = tuple(n for n in nodes if n.bl_idname != 'NodeFrame')
 
     min_x, max_x, min_y, max_y = get_bounds(nodes)
-    midpoint_x = 0.5*(min_x + max_x)
-    midpoint_y = 0.5*(min_y + max_y)
+    midpoint_x = 0.5 * (min_x + max_x)
+    midpoint_y = 0.5 * (min_y + max_y)
 
     return midpoint_x, midpoint_y
-

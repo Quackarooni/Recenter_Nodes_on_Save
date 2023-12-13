@@ -1,6 +1,5 @@
 import bpy
 import itertools
-from pathlib import Path
 from bpy.types import Operator
 
 from . import utils

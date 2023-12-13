@@ -31,9 +31,11 @@ modules = (operators, prefs)
 import bpy
 from bpy.app.handlers import persistent
 
+
 @persistent
 def execute_on_save(dummy):
     bpy.ops.recenter_nodes.main_operator('EXEC_DEFAULT')
+
 
 def register():
     for module in modules:
@@ -41,11 +43,13 @@ def register():
 
     bpy.app.handlers.save_pre.append(execute_on_save)
 
+
 def unregister():
     for module in modules:
         module.unregister()
 
     bpy.app.handlers.save_pre.remove(execute_on_save)
+
 
 if __name__ == "__main__":
     register()
