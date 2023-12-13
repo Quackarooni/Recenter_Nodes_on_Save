@@ -73,9 +73,6 @@ class RECENTER_NODES_OT_MAIN_OPERATOR(Operator):
             self.set_to_origin(nodetree)
 
         context.window.cursor_set('DEFAULT')
-        for area in context.screen.areas:
-            area.tag_redraw()
-
         return {'FINISHED'}
 
 
