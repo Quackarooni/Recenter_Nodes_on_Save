@@ -37,10 +37,7 @@ def get_width(node):
 
 
 def get_height(node):
-    if node.bl_idname == 'NodeReroute':
-        return reroute_width
-    else:
-        return node.height
+    return node.width * node.dimensions.y/node.dimensions.x
 
 
 def get_left(node):
