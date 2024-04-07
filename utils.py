@@ -37,7 +37,11 @@ def get_width(node):
 
 
 def get_height(node):
-    return node.width * node.dimensions.y/node.dimensions.x
+    dim_x, dim_y = node.dimensions
+    if (dim_x == 0) and (dim_y == 0):
+        dim_x, dim_y = node.width, node.height        
+
+    return node.width * dim_y/dim_x
 
 
 def get_left(node):
